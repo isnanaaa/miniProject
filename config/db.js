@@ -5,7 +5,7 @@ const conn = mysql.connect({
     password: 'root',
     database: 'kuliah',
     charset: 'utf8mb4',
-    timezone: '+00:00',
+    timezone: '+07:00',
 });
 
 conn.connect((err) => {
