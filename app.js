@@ -99,4 +99,30 @@ app.post('/update-mahasiswa', function (req, res){
     })
 })
 
+app.post('/delete-mahasiswa', function (req, res) {
+    const param = req.body;
+    const id = param.id;
+    const now = new Date();
+
+    const queryStr = "UPDATE mahasiswa SET deleted_at = ? WHERE id = ?";
+    const values = [now, id];
+
+    conn.query(queryStr, values, (err, result) => {
+        if (err){
+            console.log(err);
+            res.status(500).json({
+                "success": false,
+                "message": err.sqlMessage,
+                "data": null
+            });
+        } else {
+            res.status(200).json({
+                "success": true,
+                "message": "Data mahasiswa berhasil dihapus",
+                "data": result
+            });
+        }
+    });
+})
+
 app.listen(3000);
