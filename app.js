@@ -48,4 +48,28 @@ app.post('/store-mahasiswa', function(req, res) {
     });
 })
 
+app.get('/get-mahasiswa-by-id', function (req, res) {
+    const param = req.query;
+    const id = param.id;
+
+    const queryStr = "SELECT * FROM mahasiswa WHERE deleted_at IS NULL AND id = ?";
+    const values = [id]
+    conn.query(queryStr, values, (err, result) => {
+        if (err){
+            console.log(err);
+            res.status(500).json({
+                "success": false,
+                "message": err.sqlMessage,
+                "data": null
+            });
+        } else {
+            res.status(200).json({
+                "success": true,
+                "message": "Data mahasiswa berhasil diambil",
+                "data": result
+            });
+        }
+    });
+})
+
 app.listen(3000);
