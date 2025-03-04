@@ -72,4 +72,31 @@ app.get('/get-mahasiswa-by-id', function (req, res) {
     });
 })
 
+app.post('/update-mahasiswa', function (req, res){
+    const param = req.body;
+    const id = param.id;
+    const name = param.name;
+    const prodi = param.prodi;
+
+    const queryStr = "UPDATE mahasiswa SET name = ?, prodi = ?, WHERE id = ? AND deleted_at IS NULL";
+    const values = [name, prodi, id]
+
+    conn.query(queryStr, values, (err, result) => {
+        if (err){
+            console.log(err);
+            res.status(500).json({
+                "success": false,
+                "message": err.sqlMessage,
+                "data": null
+            });
+        } else {
+            res.status(200).json({
+                "success": true,
+                "message": "Data mahasiswa berhasil diupdate",
+                "data": result
+            }); 
+        }
+    })
+})
+
 app.listen(3000);
